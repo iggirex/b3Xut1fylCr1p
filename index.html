@@ -9,7 +9,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
     </head>
     <body>
-        <h1>hey</h1>
 
         <script type="text/javascript">
             var w = 700;
@@ -70,7 +69,9 @@
                             console.log("this is the height: ", yScale(d.market_cap_usd))
                             return yScale(d.market_cap_usd);
                         })
-                        .attr("fill", "blue")
+                        .attr("fill", function(d){
+                            return "rgb(100, 100, " + (yScale(parseInt(d.market_cap_usd)) * 1000000) + ")";
+                        })
 
                     svg.selectAll("text")
                         .data(dataset)
@@ -85,7 +86,7 @@
                         .attr("y", function(d){
                             return h - yScale(d.market_cap_usd) + 15;
                         })
-
+                        .style("fill", "orange")
 
                 })
             })
