@@ -12,38 +12,47 @@
         <h1>hey</h1>
 
         <script type="text/javascript">
+            var w = 700;
+            var h = 500;
+            dataset = [ 50, 100, 150, 200]
 
-        var w = 700;
-        var h = 500;
-
-
+            $(document).ready(function(){
 
                 $.get( "https://api.coinmarketcap.com/v1/ticker/", function(data){
-                    console.log(data);
-                    dataset = data;
+                    dataset = [];
+                    for(var i = 0; i < 100; i++){
+                        dataset.push(data[i])
+                    }
+                    console.log(dataset);
                 })
                 .fail(function(){
                     alert("hey u failed GET request, fool");
                 })
                 .done(function(){
-                    var svg = d3.select("body")
-                        .append("svg")
-                        .attr("width", w)
-                        .attr("height", h)
+                    var val = [];
+                    var values = dataset.forEach(function(ele){
+                        val.push(parseInt(ele.market_cap_usd));
+                    })
+                    console.log("THIS IS VALLLL!!!", val)
+
+                    var max = d3.max(val)
+                    console.log("ULTMATEEEEEEEE: ", max);
+
 
                     var xScale = d3.scale.ordinal()
                         .domain(d3.range(dataset.length))
                         .rangeRoundBands([0, w], 0.05)
 
-                        // var xScale = d3.scale.ordinal()
-                        //             .domain(d3.range(dataset.length))
-                        //             .rangeRoundBands([0, w], 0.05)
-
                     var yScale = d3.scale.linear()
-                        .domain([0, d3.max(dataset)])
+                        .domain([0, max])
                         .range([0, h])
 
-                    d3.selectAll("rect")
+                    var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h)
+
+                    svg.selectAll("rect")
                         .data(dataset)
                         .enter()
                         .append("rect")
@@ -51,21 +60,34 @@
                             return xScale(i);
                         })
                         .attr("y", function(d){
-                            return h - d;
+                            return h - yScale(d.market_cap_usd);
                         })
                         .attr("width", function(d, i){
-                            return d3.rangeBand()
+                            return xScale.rangeBand()
+                            // return xScale.rangeBand();
                         })
                         .attr("height", function(d){
-                            return d;
+                            console.log("this is the height: ", yScale(d.market_cap_usd))
+                            return yScale(d.market_cap_usd);
+                        })
+                        .attr("fill", "blue")
+
+                    svg.selectAll("text")
+                        .data(dataset)
+                        .enter()
+                        .append("text")
+                        .text(function(d){
+                            return d.id;
+                        })
+                        .attr("x", function(d, i){
+                            return xScale(i);
+                        })
+                        .attr("y", function(d){
+                            return h - yScale(d.market_cap_usd) + 15;
                         })
 
-                        $(document).ready(function(){
-                            alert("hey");
-                }
 
-                )
-
+                })
             })
         </script>
 
