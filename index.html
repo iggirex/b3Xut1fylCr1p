@@ -29,14 +29,11 @@
                 })
                 .done(function(){
                     var val = [];
-                    var values = dataset.forEach(function(ele){
+                    dataset.forEach(function(ele){
                         val.push(parseInt(ele.market_cap_usd));
                     })
-                    console.log("THIS IS VALLLL!!!", val)
 
                     var max = d3.max(val)
-                    console.log("ULTMATEEEEEEEE: ", max);
-
 
                     var xScale = d3.scale.ordinal()
                         .domain(d3.range(dataset.length))
