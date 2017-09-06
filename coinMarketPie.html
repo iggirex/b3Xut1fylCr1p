@@ -9,14 +9,18 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
     </head>
     <body>
-        <h1>Wassap fukker</h1>
+        <h1>Cryptocurrency Coin Market Caps</h1>
 
         <script type="text/javascript">
-            var w = 1000;
-            var h = 800;
+            var w = 500;
+            var h = 500;
 
             var innerRadius = 0;
             var outerRadius = w / 2;
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
 
             $(document).ready(function(){
                 console.log("ready bitch");
@@ -54,13 +58,29 @@
                                 .attr("height", h);
 
                     var arcs = svg.selectAll("g.arc")
-                                .data(pie(dataset))
+                                .data(pie(val))
                                 .enter()
                                 .append("g")
                                 .attr("class", "arc")
-                                .attr("transform", "translate(" + outerRaius + "," + outerRadius  + ")");
+                                .attr("transform", "translate(" + outerRadius + "," + outerRadius  + ")");
 
                     arcs.append("path")
+                        .attr("fill", function(d, i){
+                            return color(i);
+                        })
+                        .attr("d", arc);
+
+                    arcs.append("text")
+                        .attr("transform", function(d){
+                            return "translate(" + arc.centroid(d) + ")";
+                        })
+                        .attr("text-anchor", "middle")
+                        .text(function(d, i){
+                            console.log("yo this id d: ", dataset)
+                            if ( val[i] > 1700000000){
+                                return dataset[i].name + ": $" + numberWithCommas(val[i]);
+                            }
+                        })
 
 
                 })
