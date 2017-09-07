@@ -13,6 +13,7 @@
 
             var w = 900;
             var h = 500;
+            var padding = 100;
 
             function formatDate(year, month){
                 return new Date(year, month)
@@ -83,7 +84,7 @@
                     "formatDate": formatDate(2016, 9)
                 },
                 {
-                    "name": "Neo",
+                    "name": "NEO",
                     "startYear": 2016,
                     "startMonth": "September",
                     "date": "9/2016",
@@ -129,36 +130,75 @@
             var minDate = Date.parse(dataset[0].formatDate);
             var maxDate = Date.parse(dataset[2].formatDate);
 
+            console.log(minDate)
+
             $(document).ready(function(){
                 $.get("https://api.coinmarketcap.com/v1/ticker/", function(data){
 
-                    console.log(data);
-
                     for(var i = 0; i < dataset.length; i++){
 
+                        // Add current coin market cap from API call to hardcoded dataset
                         for(var j = 0; j < 100; j++){
-                            console.log(">>>>>>>>>>>>>", data[j])
+                            // console.log(">>>>>>>>>>>>>", data[j])
                             if(dataset[i].name == data[j].name){
-                                console.log("we got a match");
-                                dataset[i].
+                                // console.log("we got a match");
+                                dataset[i].coinMarketCap = data[j].market_cap_usd;
                             }
                         }
                     }
+                        var svg = d3.select("body")
+                                    .append("svg")
+                                    .attr("width", w)
+                                    .attr("height", h);
+
+                        // console.log("minDAte><><><><><>: ", typeof maxDate)
+
+                        var xScale = d3.time.scale()
+                                        .domain([Number(minDate), Number(maxDate)])
+                                        .range([0, w])
+
+                        var yScale = d3.scale.linear()
+                                        .domain([0, d3.max(dataset, function(d){ console.log( "this d.coinmarketcap:  ", d.coinMarketCap); return Number(d.coinMarketCap); })])
+                                        .range([h, 0])
+
+                        var xAxis = d3.svg.axis()
+                                        .orient("bottom")
+                                        .scale(xScale)
+
+                        var yAxis = d3.svg.axis()
+                                        .orient("left")
+                                        .scale(yScale)
+
+                        var rScale = d3.scale.linear()
+                                        .domain([0, d3.max(dataset, function (d) { return d.coinMarketCap })])
+                                        .range([2, 5])
+
+                        svg.append("g")
+                            .attr("transform", "translate("+padding+",0)")
+                            .call(yAxis);
+
+                        svg.append("g")
+                            .attr("class", "xAxis")
+                            .attr("transform", "translate(0," + (h - 30) + ")")
+                            .call(xAxis)
+
+
+                        svg.selectAll("circle")
+                            .data(dataset)
+                            .enter()
+                            .append("circle")
+                            .attr("cx", function(d){
+                                return new Date(d.formatDate)
+                            })
+                            .attr("cy", function(d){
+                                return d.coinMarketCap
+                            })
+
                 })
             })
+            console.log("update dataset >>>>>>>    ", dataset)
 
-            var svg = d3.select("body")
-                        .append("svg")
-                        .attr("width", w)
-                        .attr("height", h);
 
-            var xAxis = d3.scale.linear()
-                            .domain([])
-                            .range()
-
-            var xAxis = d3.scale.linear()
-                            .domain()
-                            .range()
         </script>
     </body>
 </html>
