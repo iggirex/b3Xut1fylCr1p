@@ -64,16 +64,16 @@
                         .attr("height", h);
 
             var xScale = d3.scale.linear()
-                            .domain([])
-                            .range([]);
+                            .domain([0, xRange])
+                            .range([0, w]);
 
             var yScale = d3.scale.linear()
                             .domain([])
                             .range([]);
 
-            var rScale = d3.scale.linear()
-                            .domain([])
-                            .range([]);
+            // var rScale = d3.scale.linear()
+            //                 .domain([])
+            //                 .range([]);
 
             svg.selectAll("circle")
                 .data(dataset)
@@ -108,8 +108,6 @@
                     .attr("class", "axis")
                     .attr("transform", "trandslate(0, " + (h - padding) + ")")
                     .call(yAxis);
-
-
 
         }
 
