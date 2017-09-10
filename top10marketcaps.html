@@ -57,14 +57,14 @@
 
                 var yScale = d3.scale.linear()
                                 .domain([0, d3.max(val)])
-                                .range([h - yPadding, 0]);
+                                .range([h - yPadding, yPadding]);
 
                 var yAxis = d3.svg.axis()
                                 .scale(yScale)
                                 .orient("left")
                                 .tickFormat(function(d){
                                     if(d > 0){ return d / 1000000000 + " b"; }
-                                    return "";                                  
+                                    return "";
                                 })
 
                 var xAxis = d3.svg.axis()
