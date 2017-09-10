@@ -62,6 +62,10 @@
                 var yAxis = d3.svg.axis()
                                 .scale(yScale)
                                 .orient("left")
+                                .tickFormat(function(d){
+                                    if(d > 0){ return d / 1000000000 + " b"; }
+                                    return "";                                  
+                                })
 
                 var xAxis = d3.svg.axis()
                                 .scale(xScale)
