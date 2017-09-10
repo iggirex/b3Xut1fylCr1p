@@ -46,6 +46,10 @@
                 })
                 var max = d3.max(val)
 
+                var xAxisNames = []
+
+                dataset.forEach(function(ele){ xAxisNames.push(ele.name); })
+                console.log(">>>>>>>>", xAxisNames)
 
                 var xScale = d3.scale.ordinal()
                                 .domain(d3.range(dataset.length))
@@ -62,6 +66,9 @@
                 var xAxis = d3.svg.axis()
                                 .scale(xScale)
                                 .orient("bottom")
+                                .tickFormat(function(d, i){
+                                    return xAxisNames[i]
+                                })
 
                 var svg = d3.select("body")
                             .append("svg")
