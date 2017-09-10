@@ -26,9 +26,11 @@
             if(xhr.readyState == 4 && xhr.status == 200){
                 dataset = [];
                 for(var i = 0; i < 10; i++){
-                    dataset.push(JSON.parse(xhr.responseText)[i]);
+                    addingId = JSON.parse(xhr.responseText)[i];
+                    addingId.id = i;
+                    dataset.push(addingId);
                 }
-                console.log(dataset);
+                console.log("this is dataset: ", dataset);
                 makeChart();
             }
         }
@@ -37,20 +39,47 @@
             var w = 800;
             var h = 500;
 
+            var id = function(d){
+                return d.id
+            }
+
+            var val = [];
+                    dataset.forEach(function(ele){
+                        val.push(parseInt(ele.market_cap_usd));
+                    })
+            var max = d3.max(val)
+
+
+            var xScale = d3.scale.ordinal()
+                            .domain(d3.range(dataset.length))
+                            .rangeRoundBands([0, w], 0.05)
+
+            var yScale = d3.scale.linear()
+                            .domain([0, d3.max(val)])
+                            .range([0, h]);
+
+
+
             var svg = d3.select("body")
                         .append("svg")
                         .attr("width", w)
                         .attr("height", h);
 
-            var yScale = d3.scale.linear()
-                            .domain([0, d3.max(dataset, function(d){ return d.market_cap_usd})])
-                            .range([0, h]);
+            svg.selectAll("rect")
+                .data(dataset, id)
+                .enter()
+                .append("rect")
+                .attr("x", function(d, i){
+                    return xScale(i);
+                })
+                .attr("y", function(d){
+                    return h - yScale(d.market_cap_usd);
+                })
+                .attr("width", xScale.rangeBand())
+                .attr("height", function(d, i){
+                    return yScale(d.market_cap_usd)
+                })
 
-            var xScale = d3.scale.ordinal()
-                            .domain([0, ])
-
-        //     var yScale = d3.scale.linear()
-        //                     .domain([0, d3.max(function(d){ return D.})])
         }
 
         makeRequest();
