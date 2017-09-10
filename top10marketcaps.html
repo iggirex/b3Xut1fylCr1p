@@ -37,7 +37,7 @@
             function makeChart(){
                 var w = 1000;
                 var h = 600;
-                var padding = 120;
+                var padding = 40;
                 var yPadding = 80;
 
                 var val = [];
@@ -49,7 +49,7 @@
                 var xAxisNames = []
 
                 dataset.forEach(function(ele){ xAxisNames.push(ele.name); })
-                console.log(">>>>>>>>", xAxisNames)
+                // console.log(">>>>>>>>", xAxisNames)
 
                 var xScale = d3.scale.ordinal()
                                 .domain(d3.range(dataset.length))
@@ -57,7 +57,7 @@
 
                 var yScale = d3.scale.linear()
                                 .domain([0, d3.max(val)])
-                                .range([h - yPadding, yPadding]);
+                                .range([h - yPadding, 0]);
 
                 var yAxis = d3.svg.axis()
                                 .scale(yScale)
@@ -87,11 +87,11 @@
                         return xScale(i);
                     })
                     .attr("y", function(d){
-                        return yScale(d.market_cap_usd) - yPadding;
+                        return yScale(d.market_cap_usd);
                     })
                     .attr("width", xScale.rangeBand())
                     .attr("height", function(d, i){
-                        return h - yScale(d.market_cap_usd)
+                        return (h - yPadding) - yScale(d.market_cap_usd)
                     })
 
                 svg.append("g")
