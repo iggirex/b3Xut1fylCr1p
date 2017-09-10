@@ -24,8 +24,11 @@
         function processRequest(){
             console.log("testing, state: ", xhr.readyState)
             if(xhr.readyState == 4 && xhr.status == 200){
-                let response = JSON.parse(xhr.responseText)[0];
-                console.log(response);
+                dataset = [];
+                for(var i = 0; i < 10; i++){
+                    dataset.push(JSON.parse(xhr.responseText)[i]);
+                }
+                console.log(dataset);
                 makeChart();
             }
         }
@@ -39,9 +42,12 @@
                         .attr("width", w)
                         .attr("height", h);
 
+            var yScale = d3.scale.linear()
+                            .domain([0, d3.max(dataset, function(d){ return d.market_cap_usd})])
+                            .range([0, h]);
+
             var xScale = d3.scale.ordinal()
-                            .domain([0, d3.max(function(d){ return d.market_cap_usd})])
-                            .range([0, w]);
+                            .domain([0, ])
 
         //     var yScale = d3.scale.linear()
         //                     .domain([0, d3.max(function(d){ return D.})])
