@@ -90,8 +90,8 @@
                         return yScale(d.market_cap_usd);
                     })
                     .attr("width", xScale.rangeBand())
-                    .attr("height", function(d, i){
-                        return (h - yPadding) - yScale(d.market_cap_usd)
+                    .attr("height", function(d){
+                        return (h - yPadding) - yScale(d.market_cap_usd);
                     })
 
                 svg.append("g")
