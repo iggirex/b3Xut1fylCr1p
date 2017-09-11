@@ -49,7 +49,6 @@
                             .padding(1.5);
 
             var processData = function(data){
-
                 var newDataSet = [];
 
                 for(var i = 0; i < 100; i++){
@@ -63,15 +62,16 @@
                             .filter(function(d){ return !d.children; });
 
             var vis = svg.selectAll("circle")
-                            .data(nodes);
+                            .data(nodes)
+                            // .append("g")
+                            // .attr("class", "node")
 
             vis.enter().append("circle")
+                        // .append("g")
+                        .attr("class", "node")
                         .attr("transform", function(d){  return "translate(" + d.x +  "," + d.y + ")"; })
                         .attr("r", function(d){ console.log("DRRR", d.r); return d.r; })
-                        .attr("class", function(d){ return d.className; })
-
-
-
+                        // .attr("class", function(d){ return d.className; })
         }
 
         makeRequest();
