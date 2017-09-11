@@ -9,7 +9,7 @@
     </head>
     <body>
 
-        <h1>Loading D3.js Template</h1>
+        <h1>Coins By Market Cap</h1>
 
         <section id="graph"></section>
 
@@ -32,9 +32,8 @@
         }
 
         function makeChart(){
-            var d = 600;
-            // var w = 800;
-            // var h = 500;
+            var d = 1200;
+            var color = d3.scale.category10();
 
             // console.log(response);
 
@@ -72,10 +71,22 @@
 
             vis.append("circle")
                 .attr("r", function(d){ console.log("DRRR", d.r); return d.r; })
+                .attr("fill", function(d, i){
+                    return color(i)
+                })
 
             vis.append("text")
-                .text("hey")
-                .attr("fill", "white")
+                .text(function(d){ console.log(d); return d.className})
+                .attr("fill", "dark gray")
+                .attr("font-size", function(d){
+                    if(d.size > 1800000000){
+                        return 30;
+                    } else if(d.size > 100000000){
+                        return 15;
+                    } else {
+                        return d.size / 10000000
+                    }})
+                .attr("transform", "translate(-10, 0)")
 
 
 
