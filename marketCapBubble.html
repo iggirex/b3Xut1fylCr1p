@@ -10,7 +10,6 @@
     <body>
 
         <h1>Coins By Market Cap</h1>
-
         <section id="graph"></section>
 
         <script type="text/javascript">
@@ -32,10 +31,8 @@
         }
 
         function makeChart(){
-            var d = 1200;
+            var d = 1400;
             var color = d3.scale.category10();
-
-            // console.log(response);
 
             var svg = d3.select("#graph")
                         .append("svg")
@@ -51,7 +48,6 @@
                 var newDataSet = [];
 
                 for(var i = 0; i < 100; i++){
-                    // console.log(response[i])
                     newDataSet.push({name: response[i].name, className: response[i].symbol, size: Number(response[i].market_cap_usd)})
                 }
                 return {children: newDataSet};
@@ -66,8 +62,6 @@
                             .append("g")
                             .attr("class", "node")
                             .attr("transform", function(d){  return "translate(" + d.x +  "," + d.y + ")"; })
-                            // .append("g")
-                            // .attr("class", "node")
 
             vis.append("circle")
                 .attr("r", function(d){ console.log("DRRR", d.r); return d.r; })
@@ -84,17 +78,9 @@
                     } else if(d.size > 100000000){
                         return 15;
                     } else {
-                        return d.size / 10000000
+                        return d.size / 6000000
                     }})
                 .attr("transform", "translate(-10, 0)")
-
-
-
-            // vis.enter().append("circle")
-            //             // .append("g")
-            //             .attr("class", "node")
-
-                        // .attr("class", function(d){ return d.className; })
         }
 
         makeRequest();
