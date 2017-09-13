@@ -32,18 +32,21 @@
         function makeChart(response){
             var w = 800;
             var h = 500;
+            var padding = 40;
 
             console.log(response);
 
             var lastDate = Object.keys(response.bpi)[Object.keys(response.bpi).length-1];
-            console.log(lastDate.length)
+            var lastPrice = Object.values(response.bpi)[Object.values(response.bpi).length-1];
+            console.log(">>>>>>>>>", lastPrice);
 
             var counter = 0;
             var year = [];
             var month = [];
             var day = [];
+
             for( var i = 0; i < lastDate.length; i++){
-                console.log("heyyyy")
+                console.log(lastDate)
                 if(lastDate[i] !== "-" && counter == 0){
                     console.log("lastDate[i]", lastDate[i])
                     year.push(lastDate[i]);
@@ -76,7 +79,35 @@
                         .attr("height", h);
 
             var xScale = d3.time.scale()
-                            .domain()
+                            .domain([minDate, maxDate])
+                            .range(padding, w - padding);
+
+            var yScale = d3.scale.linear()
+                            .domain([0, lastPrice])
+                            .range([h - padding, padding]);
+
+            var xAxis = d3.svg.axis()
+                            .scale(xScale)
+                            .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                            .scale(yScale)
+                            .orient("left");
+
+            svg.selectAll("circle")
+                            .data(Object.values(response.bpi))
+                            .enter()
+                            .append("circle")
+                            .attr("cx", function(d, i){
+                                console.log(d)
+                                return d;
+                            })
+                            .attr("cy", function(d, i){
+                                return yScale(d)
+                            })
+                            .attr("r", function(d){
+                                return 20;
+                            })
         }
 
         var formatDate = function(input){
