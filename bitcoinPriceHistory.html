@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+        <title>Template Loading D3</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+
+    </head>
+    <body>
+
+        <h1>Bitcoin BTC</h1>
+
+        <script type="text/javascript">
+
+        var xhr = new XMLHttpRequest();
+
+        function makeRequest(){
+            xhr.open("GET", "https://api.coindesk.com/v1/bpi/historical/close.json?start=2010-07-17&end=2017-09-11", true);
+            xhr.send();
+            xhr.onreadystatechange = processRequest;
+        }
+
+        function processRequest(){
+            console.log("testing, state: ", xhr.readyState)
+            if(xhr.readyState == 4 && xhr.status == 200){
+                let response = JSON.parse(xhr.responseText);
+                makeChart(response);
+            }
+        }
+
+        function makeChart(response){
+            var w = 800;
+            var h = 500;
+
+            console.log(response);
+
+            var lastDate = Object.keys(response.bpi)[Object.keys(response.bpi).length-1];
+            console.log(lastDate.length)
+
+            var counter = 0;
+            var year = [];
+            var month = [];
+            var day = [];
+            for( var i = 0; i < lastDate.length; i++){
+                console.log("heyyyy")
+                if(lastDate[i] !== "-" && counter == 0){
+                    console.log("lastDate[i]", lastDate[i])
+                    year.push(lastDate[i]);
+                } else if(lastDate[i] == "-"){
+                    counter++;
+                } else if(lastDate[i] !== "-" && counter == 1){
+                    month.push(lastDate[i])
+                } else if(lastDate[i] !== "-" && counter == 2){
+                    day.push(lastDate[i])
+                }
+            }
+
+            year = year.join("");
+            month = month.join("");
+            day = day.join("");
+
+            console.log(year, month, day)
+
+
+            var minDate = new Date(2010, 7, 18)
+            var maxDate = new Date(year, month + 1, day)
+
+            var formattedDates = formatDate(response);
+            console.log(formattedDates);
+
+
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            var xScale = d3.time.scale()
+                            .domain()
+        }
+
+        var formatDate = function(input){
+            var newFormat = [];
+            console.log(input)
+            for (prop in input.bpi){
+                console.log("weerd")
+            }
+            return newFormat
+        }
+
+        makeRequest();
+
+        </script>
+
+    </body>
+</html>
