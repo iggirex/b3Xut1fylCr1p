@@ -36,6 +36,33 @@
 
             console.log(response);
 
+            var makeDatesAndValues = function(input){
+                console.log("insinde >>><><>< makeDates and tis is input")
+
+                // Date.UTC(year, month[, day[, hour[, minute[, second[, millisecond]]]]])
+
+
+                var format = d3.time.format("%Y-%m-%d");
+                format.parse("2011-01-01");
+
+                let dates = [];
+                let values = [];
+                let returnData = [];
+                for(prop in input){
+                    console.log(prop)
+                    dates.push(prop);
+                    values.push(input[prop])
+                }
+                for(var i = 0; i < dates.length; i++){
+                    returnData.push({
+                                        date: +format.parse(dates[i]),
+                                        value: values[i]
+                                    })
+                }
+                console.log("TTTYYYYPPPEEE:", typeof dates[0]);
+                return returnData;
+            }
+
             var lastDate = Object.keys(response.bpi)[Object.keys(response.bpi).length-1];
             var lastPrice = Object.values(response.bpi)[Object.values(response.bpi).length-1];
             console.log(">>>>>>>>>", lastPrice);
@@ -69,8 +96,8 @@
             var minDate = new Date(2010, 7, 18)
             var maxDate = new Date(year, month + 1, day)
 
-            var formattedDates = formatDate(response);
-            console.log(formattedDates);
+            var fData = makeDatesAndValues(response.bpi);
+            console.log("BBBBBOOOOOO", fData);
 
 
             var svg = d3.select("body")
@@ -95,19 +122,32 @@
                             .orient("left");
 
             svg.selectAll("circle")
-                            .data(Object.values(response.bpi))
+                            .data(fData)
                             .enter()
                             .append("circle")
                             .attr("cx", function(d, i){
-                                console.log(d)
-                                return d;
+                                // console.log("this is DDDDDATE>>>:",d)
+                                return d.date;
                             })
                             .attr("cy", function(d, i){
-                                return yScale(d)
+                                return d.value
                             })
                             .attr("r", function(d){
-                                return 20;
+                                return 2;
                             })
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0, " + (h - padding) + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(0, " + padding +")")
+                .call(yAxis);
+
+            makeDatesAndValues(response.bpi);
+
         }
 
         var formatDate = function(input){
@@ -118,7 +158,6 @@
             }
             return newFormat
         }
-
         makeRequest();
 
         </script>
