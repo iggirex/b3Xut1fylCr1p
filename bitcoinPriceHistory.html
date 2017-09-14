@@ -36,26 +36,53 @@
 
             console.log(response);
 
+            var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+
+
+            var x = d3.time.scale().range([0, w]);
+            var y = d3.scale.linear().range([h, 0]);
+
+
+
             var makeDatesAndValues = function(input){
                 console.log("insinde >>><><>< makeDates and tis is input")
 
                 // Date.UTC(year, month[, day[, hour[, minute[, second[, millisecond]]]]])
 
 
-                var format = d3.time.format("%Y-%m-%d");
-                format.parse("2011-01-01");
+                // var format = d3.time.format("%Y-%m-%d");
+                // format.parse("2011-01-01");
 
                 let dates = [];
                 let values = [];
                 let returnData = [];
+
                 for(prop in input){
-                    console.log(prop)
+                    // console.log(prop)
                     dates.push(prop);
                     values.push(input[prop])
                 }
+                let counter = 0;
+                let year = "";
+                let month = "";
+                let day = "";
+                for( var i = 0; i < input.length; i++){
+                    if(lastDate[i] !== "-" && counter == 0){
+                        console.log("lastDate[i]", input[i])
+                        year.push(input[i]);
+                    } else if(input[i] == "-"){
+                        counter++;
+                    } else if(input[i] !== "-" && counter == 1){
+                        month.push(input[i])
+                    } else if(input[i] !== "-" && counter == 2){
+                        day.push(input[i])
+                    }
+                }
                 for(var i = 0; i < dates.length; i++){
+                    console.log("yyyEEAEEEEADEEEAOO: ", dates[i])
                     returnData.push({
-                                        date: +format.parse(dates[i]),
+                                        date: parseDate(dates[i]),
                                         value: values[i]
                                     })
                 }
@@ -93,8 +120,8 @@
             console.log(year, month, day)
 
 
-            var minDate = new Date(2010, 7, 18)
-            var maxDate = new Date(year, month + 1, day)
+            var minDate = parseDate(2010, 7, 18)
+            var maxDate = parseDate(year, month + 1, day)
 
             var fData = makeDatesAndValues(response.bpi);
             console.log("BBBBBOOOOOO", fData);
@@ -105,20 +132,21 @@
                         .attr("width", w)
                         .attr("height", h);
 
-            var xScale = d3.time.scale()
-                            .domain([minDate, maxDate])
-                            .range(padding, w - padding);
-
-            var yScale = d3.scale.linear()
-                            .domain([0, lastPrice])
-                            .range([h - padding, padding]);
+            // var xScale = d3.time.scale()
+            //                 .domain([minDate, maxDate])
+            //                 // .range(padding, w - padding);
+            //
+            // var yScale = d3.scale.linear()
+            //                 .domain([0, lastPrice])
+            //                 // .range([h - padding, padding]);
 
             var xAxis = d3.svg.axis()
-                            .scale(xScale)
-                            .orient("bottom");
+                            .scale(x)
+                            .orient("bottom")
+                            .ticks(5)
 
             var yAxis = d3.svg.axis()
-                            .scale(yScale)
+                            .scale(y)
                             .orient("left");
 
             svg.selectAll("circle")
@@ -126,38 +154,39 @@
                             .enter()
                             .append("circle")
                             .attr("cx", function(d, i){
-                                // console.log("this is DDDDDATE>>>:",d)
+                                console.log("this is DDDDDATE>>>:",d)
                                 return d.date;
                             })
                             .attr("cy", function(d, i){
                                 return d.value
                             })
                             .attr("r", function(d){
-                                return 2;
+                                return 5;
                             })
+                            .attr("fill", "black")
 
             svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(0, " + (h - padding) + ")")
+                .attr("transform", "translate(300, " + (h - padding) + ")")
                 .call(xAxis);
 
             svg.append("g")
                 .attr("class", "y axis")
-                .attr("transform", "translate(0, " + padding +")")
+                .attr("transform", "translate(50, " + padding +")")
                 .call(yAxis);
 
             makeDatesAndValues(response.bpi);
 
         }
 
-        var formatDate = function(input){
-            var newFormat = [];
-            console.log(input)
-            for (prop in input.bpi){
-                console.log("weerd")
-            }
-            return newFormat
-        }
+        // var formatDate = function(input){
+        //     var newFormat = [];
+        //     console.log(input)
+        //     for (prop in input.bpi){
+        //         console.log("weerd")
+        //     }
+        //     return newFormat
+        // }
         makeRequest();
 
         </script>
