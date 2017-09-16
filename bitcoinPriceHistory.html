@@ -33,126 +33,70 @@
             var w = 800;
             var h = 500;
             var padding = 20;
-            var Lpadding = 40;
+            var Lpadding = 45;
 
-            // console.log(response);
-
-            var parseDate = d3.time.format("%Y-%m-%d").parse;
-
-
-
-            // var x = d3.time.scale().range([0, w]);
-            // var y = d3.scale.linear().range([h, 0]);
-
-
+            // var parseDate = d3.time.format("%Y-%m-%d").parse;
 
             var makeDatesAndValues = function(input){
                 console.log("insinde >>><><>< makeDates and tis is input", input)
-
-                // Date.UTC(year, month[, day[, hour[, minute[, second[, millisecond]]]]])
-
-
-                // var format = d3.time.format("%Y-%m-%d");
-                // format.parse("2011-01-01");
 
                 let dates = [];
                 let values = [];
                 let returnData = [];
 
                 for(prop in input){
-                    // console.log(prop)
-                    dates.push(prop);
                     values.push(input[prop])
-                }
-                let counter = 0;
-                let year = "";
-                let month = "";
-                let day = "";
-                for( var i = 0; i < input.length; i++){
-                    if(lastDate[i] !== "-" && counter == 0){
-                        console.log("lastDate[i]", input[i])
-                        year.push(input[i]);
-                    } else if(input[i] == "-"){
-                        counter++;
-                    } else if(input[i] !== "-" && counter == 1){
-                        month.push(input[i])
-                    } else if(input[i] !== "-" && counter == 2){
-                        day.push(input[i])
+
+                    let counter = 0;
+                    let year = [];
+                    let month = [];
+                    let day = [];
+
+                    for( var j = 0; j < prop.length; j++){
+                        if(lastDate[j] !== "-" && counter == 0){
+                            year.push(prop[j]);
+                        } else if(prop[j] == "-"){
+                            counter++;
+                        } else if(prop[j] !== "-" && counter == 1){
+                            month.push(prop[j])
+                        } else if(prop[j] !== "-" && counter == 2){
+                            day.push(prop[j])
+                        }
                     }
+                    // console.log("I DONT GET IT", month.join(""))
+                    dates.push([Number(year.join("")), Number(month.join("")), Number(day.join(""))]);
+
+                    returnData.push(
+                        {
+                                        date: [Number(year.join("")), Number(month.join("")), Number(day.join(""))],
+                                        value: input[prop]
+                        }
+                    )
                 }
-                for(var i = 0; i < dates.length; i++){
-                    // console.log("yyyEEAEEEEADEEEAOO: ", dates[i])
-                    returnData.push({
-                                        date: parseDate(dates[i]).toString(),
-                                        value: values[i]
-                                    })
-                }
-                console.log("TTTYYYYPPPEEE:", returnData);
+                // console.log("YYYYYEEEEEHHHHAAAWWWW", returnData)
                 return returnData;
             }
 
             var lastDate = Object.keys(response.bpi)[Object.keys(response.bpi).length-1];
             var lastPrice = Object.values(response.bpi)[Object.values(response.bpi).length-1];
-            // console.log(">>>>>>>>>", lastPrice);
 
-            var counter = 0;
-            var year = [];
-            var month = [];
-            var day = [];
-
-            for( var i = 0; i < lastDate.length; i++){
-                // console.log(lastDate)
-                if(lastDate[i] !== "-" && counter == 0){
-                    // console.log("lastDate[i]", lastDate[i])
-                    year.push(lastDate[i]);
-                } else if(lastDate[i] == "-"){
-                    counter++;
-                } else if(lastDate[i] !== "-" && counter == 1){
-                    month.push(lastDate[i])
-                } else if(lastDate[i] !== "-" && counter == 2){
-                    day.push(lastDate[i])
-                }
-            }
-
-            year = year.join("");
-            month = month.join("");
-            day = day.join("");
-
-            // console.log(year, month, day)
-
-
-            // var minDate = parseDate(2010, 7, 18)
-            var minDate = new Date(2011-01-01)
-            console.log(">>>>>>>>>>>", minDate)
-            var maxDate = parseDate(year, month + 1, day)
-
-            var fData = makeDatesAndValues(response.bpi);
-            console.log("BBBBBOOOOOO", fData);
-
+            var inputData = makeDatesAndValues(response.bpi);
+            // console.log("CCCOOOOOOONNNNOOO", inputData)
 
             var svg = d3.select("body")
                         .append("svg")
                         .attr("width", w)
                         .attr("height", h);
 
-
-
-
-            var x = d3.time.scale().range([0, w]);
             var y = d3.scale.linear().range([h, 0]);
 
-            x.domain([new Date(2010, 7, 18), new Date(2017, 7, 18)]);
-            y.domain([0, d3.max(fData, function(d) { return d.value; })]);
+            y.domain([0, 5000]);
 
+            var x = d3.time.scale()
+                                .domain([new Date(2012, 7, 18), new Date(2017, 7, 18)])
+                                .range([0, w]);
 
-
-            // var xScale = d3.time.scale()
-            //                 .domain([minDate, maxDate])
-            //                 // .range(padding, w - padding);
-            //
-            // var yScale = d3.scale.linear()
-            //                 .domain([0, lastPrice])
-            //                 // .range([h - padding, padding]);
+            // console.log("MIIIIIIRRRRRAAAAAAAAA.....:", x(new Date(2015, 0, 5)))
 
             var xAxis = d3.svg.axis()
                             .scale(x)
@@ -164,18 +108,20 @@
                             .orient("left");
 
             svg.selectAll("circle")
-                            .data(fData)
+                            .data(inputData)
                             .enter()
                             .append("circle")
-                            .attr("cx", function(d, i){
-                                console.log("this TTTYYPIIEEE is DDDDDATE>>>:", typeof d.date.toString())
-                                return d.date;
+                            .attr("cx", function(d){
+                                let thisDate = x(new Date(d.date[0], d.date[1], d.date[2]))
+                                console.log("!!!!!!!!this TTTYYPIIEEE is DDDDDATE>>>:", thisDate);
+                                return thisDate;
                             })
                             .attr("cy", function(d, i){
+                                console.log("fffuuuuukkkkkk")
                                 return d.value
                             })
                             .attr("r", function(d){
-                                return 5;
+                                return 2;
                             })
                             .attr("fill", "black")
 
@@ -188,18 +134,8 @@
                 .attr("class", "y axis")
                 .attr("transform", "translate(" + Lpadding + ", " + - padding +")")
                 .call(yAxis);
-
-            makeDatesAndValues(response.bpi);
         }
 
-        // var formatDate = function(input){
-        //     var newFormat = [];
-        //     console.log(input)
-        //     for (prop in input.bpi){
-        //         console.log("weerd")
-        //     }
-        //     return newFormat
-        // }
         makeRequest();
 
         </script>
