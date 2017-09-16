@@ -32,7 +32,8 @@
         function makeChart(response){
             var w = 800;
             var h = 500;
-            var padding = 40;
+            var padding = 20;
+            var Lpadding = 40;
 
             // console.log(response);
 
@@ -140,7 +141,7 @@
             var x = d3.time.scale().range([0, w]);
             var y = d3.scale.linear().range([h, 0]);
 
-            x.domain(d3.extent(fData, function(d) { return new Date(d.date); }));
+            x.domain([new Date(2010, 7, 18), new Date(2017, 7, 18)]);
             y.domain([0, d3.max(fData, function(d) { return d.value; })]);
 
 
@@ -180,12 +181,12 @@
 
             svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(300, " + (h - padding) + ")")
+                .attr("transform", "translate(" + Lpadding + ", " + (h - padding) + ")")
                 .call(xAxis);
 
             svg.append("g")
                 .attr("class", "y axis")
-                .attr("transform", "translate(50, " + padding +")")
+                .attr("transform", "translate(" + Lpadding + ", " + - padding +")")
                 .call(yAxis);
 
             makeDatesAndValues(response.bpi);
