@@ -34,19 +34,19 @@
             var h = 500;
             var padding = 40;
 
-            console.log(response);
+            // console.log(response);
 
             var parseDate = d3.time.format("%Y-%m-%d").parse;
 
 
 
-            var x = d3.time.scale().range([0, w]);
-            var y = d3.scale.linear().range([h, 0]);
+            // var x = d3.time.scale().range([0, w]);
+            // var y = d3.scale.linear().range([h, 0]);
 
 
 
             var makeDatesAndValues = function(input){
-                console.log("insinde >>><><>< makeDates and tis is input")
+                console.log("insinde >>><><>< makeDates and tis is input", input)
 
                 // Date.UTC(year, month[, day[, hour[, minute[, second[, millisecond]]]]])
 
@@ -80,19 +80,19 @@
                     }
                 }
                 for(var i = 0; i < dates.length; i++){
-                    console.log("yyyEEAEEEEADEEEAOO: ", dates[i])
+                    // console.log("yyyEEAEEEEADEEEAOO: ", dates[i])
                     returnData.push({
                                         date: parseDate(dates[i]),
                                         value: values[i]
                                     })
                 }
-                console.log("TTTYYYYPPPEEE:", typeof dates[0]);
+                console.log("TTTYYYYPPPEEE:", returnData);
                 return returnData;
             }
 
             var lastDate = Object.keys(response.bpi)[Object.keys(response.bpi).length-1];
             var lastPrice = Object.values(response.bpi)[Object.values(response.bpi).length-1];
-            console.log(">>>>>>>>>", lastPrice);
+            // console.log(">>>>>>>>>", lastPrice);
 
             var counter = 0;
             var year = [];
@@ -100,9 +100,9 @@
             var day = [];
 
             for( var i = 0; i < lastDate.length; i++){
-                console.log(lastDate)
+                // console.log(lastDate)
                 if(lastDate[i] !== "-" && counter == 0){
-                    console.log("lastDate[i]", lastDate[i])
+                    // console.log("lastDate[i]", lastDate[i])
                     year.push(lastDate[i]);
                 } else if(lastDate[i] == "-"){
                     counter++;
@@ -117,10 +117,12 @@
             month = month.join("");
             day = day.join("");
 
-            console.log(year, month, day)
+            // console.log(year, month, day)
 
 
-            var minDate = parseDate(2010, 7, 18)
+            // var minDate = parseDate(2010, 7, 18)
+            var minDate = new Date(2011-01-01)
+            console.log(">>>>>>>>>>>", minDate)
             var maxDate = parseDate(year, month + 1, day)
 
             var fData = makeDatesAndValues(response.bpi);
@@ -131,6 +133,17 @@
                         .append("svg")
                         .attr("width", w)
                         .attr("height", h);
+
+
+
+
+            var x = d3.time.scale().range([0, w]);
+            var y = d3.scale.linear().range([h, 0]);
+
+            x.domain(d3.extent(fData, function(d) { return d.date; }));
+            y.domain([0, d3.max(fData, function(d) { return d.value; })]);
+
+
 
             // var xScale = d3.time.scale()
             //                 .domain([minDate, maxDate])
@@ -176,7 +189,6 @@
                 .call(yAxis);
 
             makeDatesAndValues(response.bpi);
-
         }
 
         // var formatDate = function(input){
