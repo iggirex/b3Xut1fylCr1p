@@ -36,6 +36,7 @@
             var Lpadding = 45;
 
             // var parseDate = d3.time.format("%Y-%m-%d").parse;
+            console.log(response);
 
             var makeDatesAndValues = function(input){
                 console.log("insinde >>><><>< makeDates and tis is input", input)
@@ -81,20 +82,20 @@
             var lastPrice = Object.values(response.bpi)[Object.values(response.bpi).length-1];
 
             var inputData = makeDatesAndValues(response.bpi);
-            // console.log("CCCOOOOOOONNNNOOO", inputData)
 
             var svg = d3.select("body")
                         .append("svg")
                         .attr("width", w)
                         .attr("height", h);
 
-            var y = d3.scale.linear().range([h, 0]);
+            var y = d3.scale.linear()
+                            .domain([0, 5000])
+                            .range([h - padding, padding])
 
-            y.domain([0, 5000]);
 
             var x = d3.time.scale()
-                                .domain([new Date(2012, 7, 18), new Date(2017, 7, 18)])
-                                .range([0, w]);
+                                .domain([new Date(2010, 7, 18), new Date(2017, 7, 18)])
+                                .range([Lpadding, w]);
 
             // console.log("MIIIIIIRRRRRAAAAAAAAA.....:", x(new Date(2015, 0, 5)))
 
@@ -127,12 +128,12 @@
 
             svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(" + Lpadding + ", " + (h - padding) + ")")
+                .attr("transform", "translate(0, " + (h - padding) + ")")
                 .call(xAxis);
 
             svg.append("g")
                 .attr("class", "y axis")
-                .attr("transform", "translate(" + Lpadding + ", " + - padding +")")
+                .attr("transform", "translate(" + Lpadding + ", 0)")
                 .call(yAxis);
         }
 
