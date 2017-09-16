@@ -82,7 +82,7 @@
                 for(var i = 0; i < dates.length; i++){
                     // console.log("yyyEEAEEEEADEEEAOO: ", dates[i])
                     returnData.push({
-                                        date: parseDate(dates[i]),
+                                        date: parseDate(dates[i]).toString(),
                                         value: values[i]
                                     })
                 }
@@ -140,7 +140,7 @@
             var x = d3.time.scale().range([0, w]);
             var y = d3.scale.linear().range([h, 0]);
 
-            x.domain(d3.extent(fData, function(d) { return d.date; }));
+            x.domain(d3.extent(fData, function(d) { return new Date(d.date); }));
             y.domain([0, d3.max(fData, function(d) { return d.value; })]);
 
 
@@ -167,7 +167,7 @@
                             .enter()
                             .append("circle")
                             .attr("cx", function(d, i){
-                                console.log("this is DDDDDATE>>>:",d)
+                                console.log("this TTTYYPIIEEE is DDDDDATE>>>:", typeof d.date.toString())
                                 return d.date;
                             })
                             .attr("cy", function(d, i){
