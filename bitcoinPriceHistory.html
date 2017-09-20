@@ -119,7 +119,7 @@
                             })
                             .attr("cy", function(d, i){
                                 console.log("fffuuuuukkkkkk")
-                                return d.value
+                                return (h - d.value) - padding
                             })
                             .attr("r", function(d){
                                 return 2;
