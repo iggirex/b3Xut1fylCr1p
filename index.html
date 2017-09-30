@@ -2,94 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Coins by Market Cap</title>
-        <script
-        src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+        <title>BeautifulCrypto</title>
     </head>
     <body>
+        <h1>Wealcom to Beautiful Crypto, this is a div btw</h1>
 
-        <h1>Top 100 Crypto Currencies by market cap</h1>
-
-        <script type="text/javascript">
-            var w = 700;
-            var h = 500;
-            dataset = [ 50, 100, 150, 200]
-
-            $(document).ready(function(){
-
-                $.get( "https://api.coinmarketcap.com/v1/ticker/", function(data){
-                    dataset = [];
-                    for(var i = 0; i < 100; i++){
-                        dataset.push(data[i])
-                    }
-                    console.log(dataset);
-                })
-                .fail(function(){
-                    alert("hey u failed GET request, fool");
-                })
-                .done(function(){
-                    var val = [];
-                    dataset.forEach(function(ele){
-                        val.push(parseInt(ele.market_cap_usd));
-                    })
-
-                    var max = d3.max(val)
-
-                    var xScale = d3.scale.ordinal()
-                        .domain(d3.range(dataset.length))
-                        .rangeRoundBands([0, w], 0.05)
-
-                    var yScale = d3.scale.linear()
-                        .domain([0, max])
-                        .range([0, h])
-
-                    var svg = d3.select("body")
-                        .append("svg")
-                        .attr("width", w)
-                        .attr("height", h)
-
-                    svg.selectAll("rect")
-                        .data(dataset)
-                        .enter()
-                        .append("rect")
-                        .attr("x", function(d, i){
-                            return xScale(i);
-                        })
-                        .attr("y", function(d){
-                            return h - yScale(d.market_cap_usd);
-                        })
-                        .attr("width", function(d, i){
-                            return xScale.rangeBand()
-                            // return xScale.rangeBand();
-                        })
-                        .attr("height", function(d){
-                            console.log("this is the height: ", yScale(d.market_cap_usd))
-                            return yScale(d.market_cap_usd);
-                        })
-                        .attr("fill", function(d){
-                            return "rgb(100, 100, " + (yScale(parseInt(d.market_cap_usd)) * 1000000) + ")";
-                        })
-
-                    svg.selectAll("text")
-                        .data(dataset)
-                        .enter()
-                        .append("text")
-                        .text(function(d){
-                            return d.id;
-                        })
-                        .attr("x", function(d, i){
-                            return xScale(i);
-                        })
-                        .attr("y", function(d){
-                            return h - yScale(d.market_cap_usd) + 15;
-                        })
-                        .style("fill", "orange")
-
-                })
-            })
-        </script>
-
+        <h2>Dem Charts</h2>
+        <ul>
+            <li><a href="/coinMarketPie.html">Market Cap Pie Chart</a></li>
+        </ul>
     </body>
 </html>
