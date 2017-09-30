@@ -1,0 +1,22 @@
+{
+  "name": "beautiful-crypto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iggirex/b3Xut1fylCr1p.git"
+  },
+  "author": "Sukk Fuckerberg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iggirex/b3Xut1fylCr1p/issues"
+  },
+  "homepage": "https://github.com/iggirex/b3Xut1fylCr1p#readme",
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
