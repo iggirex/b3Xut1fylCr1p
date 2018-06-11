@@ -1,15 +1,27 @@
 var express = require("express");
 var app = express();
+var path = require("path");
+var bodyParser = require("body-parser");
+
+var routes = require("./routes/index");
+
+var hbs = require("express-handlebars");
+
+// view engine setup
+app.engine("hbs", hbs({extname: "hbs", defaultLayout: "layout", layoutsDir: __dirname +"/views/"}));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "hbs");
+
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/", routes);
 
 /* serves main page */
 app.get("/", function(req, res) {
    res.sendfile('index.html')
 });
 
- app.post("/user/add", function(req, res) {
-   /* some server side logic */
-   res.send("OK");
- });
 
 /* serves all the static files */
 app.get(/^(.+)$/, function(req, res){

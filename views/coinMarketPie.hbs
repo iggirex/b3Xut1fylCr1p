@@ -1,0 +1,88 @@
+{{!-- <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Coin MarketCap Pie</title>
+        <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+    </head>
+    <body> --}}
+        <h1>Cryptocurrency Coin Market Caps</h1>
+
+        <script type="text/javascript">
+            var w = 500;
+            var h = 500;
+
+            var innerRadius = 0;
+            var outerRadius = w / 2;
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            $(document).ready(function(){
+
+                var dataset = [];
+                var val = [];
+
+                $.get("https://api.coinmarketcap.com/v1/ticker/", function(data){
+
+                    dataset = [];
+                    for(var i = 0; i < 100; i++){
+                        dataset.push(data[i])
+                    }
+                    console.log(dataset);
+
+                })
+                .done(function(){
+                    dataset.forEach(function(ele){
+                        val.push(parseInt(ele.market_cap_usd));
+                    });
+
+                    console.log("this be dataset: ", dataset, " and this is val: ", val);
+
+                    var arc = d3.svg.arc()
+                                .innerRadius(innerRadius)
+                                .outerRadius(outerRadius)
+
+                    var pie = d3.layout.pie();
+
+                    var color = d3.scale.category10();
+
+                    var svg = d3.select("body")
+                                .append("svg")
+                                .attr("width", w)
+                                .attr("height", h);
+
+                    var arcs = svg.selectAll("g.arc")
+                                .data(pie(val))
+                                .enter()
+                                .append("g")
+                                .attr("class", "arc")
+                                .attr("transform", "translate(" + outerRadius + "," + outerRadius  + ")");
+
+                    arcs.append("path")
+                        .attr("fill", function(d, i){
+                            return color(i);
+                        })
+                        .attr("d", arc);
+
+                    arcs.append("text")
+                        .attr("transform", function(d){
+                            return "translate(" + arc.centroid(d) + ")";
+                        })
+                        .attr("text-anchor", "middle")
+                        .text(function(d, i){
+                            console.log("yo this id d: ", dataset)
+                            if ( val[i] > 1700000000){
+                                return dataset[i].name + ": $" + numberWithCommas(val[i]);
+                            }
+                        })
+                        .attr("fill", "white");
+                        
+                })
+            })
+        </script>
+
