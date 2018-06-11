@@ -17,7 +17,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", routes);
 
-/* serves main page */
 app.get("/", function(req, res) {
    res.sendfile('index.html')
 });
@@ -25,7 +24,6 @@ app.get("/", function(req, res) {
 
 /* serves all the static files */
 app.get(/^(.+)$/, function(req, res){
-    console.log('static file request : ' + req.params);
     res.sendfile( __dirname + req.params[0]);
 });
 

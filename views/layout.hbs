@@ -2,25 +2,29 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{{ title }}</title>
+        <title>Beautiful Crypto</title>
         <link rel="stylesheet" href="/css/styles.css">
 
         <!-- - - - - -  Bootstrap - - - - -  -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-        <!-- Optional theme -->
+        <!-- - - - -Optional BS theme - - - -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-        <!-- - - - - -  D3 - - - - -  -->
+        <!-- - - - - - - D3 - - - - -  -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.12/d3.min.js"></script>
+
+        <!-- - - - - Font Awesome - - - -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Permanent+Marker|Roboto" rel="stylesheet">
+
     </head>
     <body>
         <!-- - - -  NAVBAR - - - -  -->
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse" id="navbar">
                 <div class="container-fluid">
                   <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -29,7 +33,7 @@
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">BeautifulCrypto</a>
+                    <a class="navbar-brand" href="/">BeautifulCrypto</a>
                   </div>
               
                   <!-- Collect the nav links, forms, and other content for toggling -->
@@ -39,15 +43,15 @@
                       <li class="charts">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Charts <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                          <li><a href="http://www.beautifulcrypto.com/coinMarketPie.html">Market Cap Pie Chart</a></li>
+                          <li><a href="/coinMarketPie">Market Cap Pie Chart</a></li>
                           <li role="separator" class="divider"></li>
-                          <li><a href="http://www.beautifulcrypto.com/marketCapBubble.html">Market Cap Bubble Chart</a></li>
+                          <li><a href="/marketCapBubble">Market Cap Bubble Chart</a></li>
                           <li role="separator" class="divider"></li>
-                          <li><a href="http://www.beautifulcrypto.com/top10marketcaps.html">Top 10 Bar Chart</a></li>
+                          <li><a href="/top10marketcaps">Top 10 Bar Chart</a></li>
                           <li role="separator" class="divider"></li>
-                          <li><a href="http://www.beautifulcrypto.com/marketBarChart.html">Market Cap Bar Chart</a></li>
+                          <li><a href="/marketBarChart">Market Cap Bar Chart</a></li>
                           <li role="separator" class="divider"></li>
-                          <li><a href="http://www.beautifulcrypto.com/bitcoinPriceHistory.html">Bitcoin Price History Scatterplot</a></li>
+                          <li><a href="/bitcoinPriceHistory">Bitcoin Price History Scatterplot</a></li>
                         </ul>
                       </li>
                     </ul>

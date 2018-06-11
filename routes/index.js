@@ -6,7 +6,7 @@ router.get("/", function(req, res, next){
 })
 
 router.get("/marketCapBubble", function(req, res, next){
-    res.send("response with a resource");
+    res.render("marketCapBubble");
 })
 
 router.get("/coinmarketpie", function(req, res, next){
@@ -23,6 +23,14 @@ router.get("/coinscatterplot", function(req, res, next){
 
 router.get("/marketbarchart", function(req, res, next){
     res.render("marketBarChart");
+})
+
+router.get("/top10marketcaps", function(req, res, next){
+    res.render("top10MarketCaps");
+})
+
+router.get("/priceVScaps", function(req, res, next){
+    res.render("priceVScaps");
 })
 
 module.exports = router;
